@@ -1,0 +1,6 @@
+SSM框架需要配置以下几个文件：
+    Controller模块：springMVC.xml
+    Service模块：applicationContext.xml
+    Dao模块：applicationContextMapper.xml
+    MyBatis配置：mybatis-config.xml
+    JDBC驱动器：jdbc.properties

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:property-placeholder location="classpath*:jdbc.properties"/>
+
+    <!-- 1. 配置数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!-- 1. 配置数据源 -->
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        &lt;!&ndash; c3p0连接池的私有属性 &ndash;&gt;
+        <property name="maxPoolSize" value="30" />
+        <property name="minPoolSize" value="10" />
+        &lt;!&ndash; 关闭连接后不自动commit &ndash;&gt;
+        <property name="autoCommitOnClose" value="false" />
+        &lt;!&ndash; 获取连接超时时间 &ndash;&gt;
+        <property name="checkoutTimeout" value="10000" />
+        &lt;!&ndash; 当获取连接失败重试次数 &ndash;&gt;
+        <property name="acquireRetryAttempts" value="2" />
+    </bean>-->
+
+    <!-- 2. 配置SqlSessionFactory -->
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        &lt;!&ndash; 设置数据源 &ndash;&gt;
+        <property name="dataSource" ref="dataSource"/>
+        &lt;!&ndash; 设置mybatis-config.xml &ndash;&gt;
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        &lt;!&ndash; 设置SQL映射文件 &ndash;&gt;
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+        &lt;!&ndash; 扫描entity包 使用别名 &ndash;&gt;
+        <property name="typeAliasesPackage" value="com.cabb.model.po"/>
+    </bean>-->
+
+    <!-- 2. 配置SqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 设置数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--设置mybatis-config.xml -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--设置SQL映射文件 -->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+        <!--扫描entity包 使用别名 -->
+        <property name="typeAliasesPackage" value="com.cabb.model.po"/>
+    </bean>
+
+    <!-- 3. 配置数据访问接口的代理对象 (批量配置)
+        到基础包下扫描所有的数据访问接口，再创建它们的代理对象，然后交给Spring容器
+        bean的id: 默认为接口的类名，首字母小写
+        配置通用Mapper整合Mybatis+Spring (我们的数据访问接口继承了通用Mapper接口)
+    -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--包扫描范围-->
+        <property name="basePackage" value="com.cabb.dao"/>
+    </bean>
+
+    <!--配置数据源事务管理器(DataSourceTransactionManager)，事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 配置基于注解的声明式事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>
