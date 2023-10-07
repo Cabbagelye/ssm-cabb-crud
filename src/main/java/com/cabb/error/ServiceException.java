@@ -1,4 +1,4 @@
-package com.cabb.common;
+package com.cabb.error;
 
 /**
  * @ClassName ServiceException
