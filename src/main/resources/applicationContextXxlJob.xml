@@ -8,9 +8,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-<!--    <context:property-placeholder location="classpath*:xxlJob.properties"/>-->
-    <context:property-placeholder location="classpath*:jdbc.properties"/>
-
+    <context:property-placeholder location="classpath:source.properties"/>
 
     <bean id="xxlJobSpringExecutor" class="com.xxl.job.core.executor.impl.XxlJobSpringExecutor">
         <!--执行器注册中心地址【选填】，为空则自动关闭自动注册-->

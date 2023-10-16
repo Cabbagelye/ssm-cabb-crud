@@ -2,8 +2,6 @@ package com.cabb.util.job;
 
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,13 +12,17 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 public class DemoXxlJobHandler{
-
-    Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @XxlJob("demoXxlJobHandler")
     public ReturnT<String> demoXxlJobHandler(String param) throws Exception {
 
-        logger.info(">>>>>>>>>>>>>this is a xxl-job-handler<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println(">>>>>>>>>>>>>this is a xxl-job-handler<<<<<<<<<<<<<<<<<<<<<");
+        int k = 0;
+        double atan = 0;
+        for (int i = 0; i < 5; i++) {
+            k = i+k;
+            atan = Math.atan(i);
+        }
+        System.out.println("输出结果为：k= " + k + ", atan = " + atan);
         return ReturnT.SUCCESS;
     }
 }
