@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--自定义Realm-->
+    <bean id="myRealm" class="com.cabb.util.shiro.MyRealm"/>
+    <!--创建安全管理器-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myRealm"/>
+    </bean>
+    <!--创建shiro过滤器-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!--引用指定的安全管理器-->
+        <property name="securityManager" ref="securityManager"/>
+        <!--shiro指定登录地址-->
+        <property name="loginUrl" value="/login.html"/>
+        <!--路径对应规则-->
+        <property name="filterChainDefinitions">
+            <value>
+                /login/**=anon
+                /static/**=anon
+                /error=anon
+                /fronted/**=anon
+                /**=authc
+            </value>
+        </property>
+    </bean>
+
+</beans>

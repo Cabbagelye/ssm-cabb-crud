@@ -12,5 +12,8 @@
         select * from ssm_user where id = #{userId}
     </select>
 
-
+    <!---->
+    <select id="findUserByName" resultType="com.cabb.model.po.User">
+        select * from ssm_user where name = #{username}
+    </select>
 </mapper>

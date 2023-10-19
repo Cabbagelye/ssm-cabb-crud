@@ -21,6 +21,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
+
     @PostMapping("/addUser")
     @ResponseBody
     public String addUser(@RequestBody User user){

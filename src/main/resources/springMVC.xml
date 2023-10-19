@@ -39,4 +39,7 @@
         <property name="maxUploadSize" value="1048576"/>
     </bean>
 
+    <!--引入安全管理器-->
+    <import resource="applicationContextShiro.xml"/>
+
 </beans>
